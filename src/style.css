@@ -1,7 +1,18 @@
 canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
   margin: 0;
   padding: 0;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+p {
+  position: fixed;
+  right: 10px;
 }
