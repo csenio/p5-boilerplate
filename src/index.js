@@ -1,21 +1,50 @@
 import "./style.css";
 import p5 from "p5";
+import Particle from "./particle";
 
-let xoff = 0;
-let yoff = 200;
+let inc = 0.1;
+let scl = 30;
+let cols, rows;
+
+let time = 0;
+
+// let fr;
+// let particles = [];
 
 let s = sk => {
   sk.setup = () => {
-    sk.createCanvas(window.innerWidth, window.innerHeight);
+    sk.createCanvas(800, 800);
+    cols = sk.floor(sk.width / scl);
+    rows = sk.floor(sk.width / scl);
+    // fr = sk.createP("hey");
+
+    // particles[0] = new Particle(sk);
   };
+
   sk.draw = () => {
-    let x = sk.map(sk.noise(xoff), 0, 1, 0, sk.width);
-    let y = sk.map(sk.noise(yoff), 0, 1, 0, sk.height);
+    let yOff = 1;
+    sk.background(255);
+    time += 0.005;
+    for (let y = 0; y < rows; y++) {
+      let xOff = 1;
+      for (let x = 0; x < cols; x++) {
+        let r = sk.noise(xOff, yOff, time) * sk.TWO_PI;
 
-    xoff += 0.01;
-    yoff += 0.01;
+        let v = p5.Vector.fromAngle(r);
+        xOff += inc;
+        sk.stroke(0);
+        sk.push();
+        sk.translate(x * scl, y * scl);
+        sk.rotate(v.heading());
+        sk.line(0, 0, scl, 0);
 
-    sk.ellipse(x, y, 80, 80);
+        sk.pop();
+      }
+      yOff += inc;
+    }
+    // particles[0].update();
+    // particles[0].show();
+    // fr.html(sk.floor(sk.frameRate()));
   };
 };
 
