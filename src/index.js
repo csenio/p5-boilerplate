@@ -46,7 +46,7 @@ let s = sk => {
       particles[i].show();
     }
 
-    fr.html(sk.floor(sk.frameRate()));
+    // fr.html(sk.floor(sk.frameRate()));
   };
 };
 
