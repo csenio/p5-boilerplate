@@ -23,7 +23,7 @@ export default function Particle(sk, scl, cols) {
 
     let r = noise[index] * sk.TWO_PI * 4;
     let v = p5.Vector.fromAngle(r);
-    // v.setMag(1);
+    v.setMag(1);
 
     this.applyForce(v);
   };
@@ -34,8 +34,8 @@ export default function Particle(sk, scl, cols) {
 
   this.show = function() {
     sk.stroke(`rgba(0,0,0,${this.h})`);
-    if (this.h < 0.2) {
-      this.h += 0.01;
+    if (this.h < 0.05) {
+      this.h += 0.001;
     }
     sk.strokeWeight(1);
 

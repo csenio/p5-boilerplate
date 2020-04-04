@@ -3,7 +3,7 @@ import p5 from "p5";
 import Particle from "./particle";
 
 let inc = 0.1;
-let scl = 10;
+let scl = 5;
 let cols, rows;
 
 let time = 0;
@@ -36,7 +36,7 @@ let s = sk => {
         xOff += inc;
       }
       yOff += inc;
-      time += 0.0003;
+      time += 0.5;
     }
 
     for (let i = 0; i < particles.length; i++) {
