@@ -3,48 +3,50 @@ import p5 from "p5";
 import Particle from "./particle";
 
 let inc = 0.1;
-let scl = 30;
+let scl = 10;
 let cols, rows;
 
 let time = 0;
 
-// let fr;
-// let particles = [];
+let fr;
+let particles = [];
+let flowField;
 
 let s = sk => {
   sk.setup = () => {
-    sk.createCanvas(800, 800);
+    sk.createCanvas(window.innerWidth, window.innerHeight);
     cols = sk.floor(sk.width / scl);
     rows = sk.floor(sk.width / scl);
-    // fr = sk.createP("hey");
+    fr = sk.createP("");
 
-    // particles[0] = new Particle(sk);
+    for (let i = 0; i < 1000; i++) {
+      particles[i] = new Particle(sk, scl, cols);
+    }
+
+    flowField = new Array(cols * rows);
   };
 
   sk.draw = () => {
-    let yOff = 1;
-    sk.background(255);
-    time += 0.005;
+    let yOff = 0;
     for (let y = 0; y < rows; y++) {
-      let xOff = 1;
+      let xOff = 0;
       for (let x = 0; x < cols; x++) {
-        let r = sk.noise(xOff, yOff, time) * sk.TWO_PI;
-
-        let v = p5.Vector.fromAngle(r);
+        let index = x + y * cols;
+        flowField[index] = sk.noise(xOff, yOff, time);
         xOff += inc;
-        sk.stroke(0);
-        sk.push();
-        sk.translate(x * scl, y * scl);
-        sk.rotate(v.heading());
-        sk.line(0, 0, scl, 0);
-
-        sk.pop();
       }
       yOff += inc;
+      time += 0.0003;
     }
-    // particles[0].update();
-    // particles[0].show();
-    // fr.html(sk.floor(sk.frameRate()));
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].follow(flowField);
+      particles[i].update();
+      particles[i].edges();
+      particles[i].show();
+    }
+
+    fr.html(sk.floor(sk.frameRate()));
   };
 };
 
